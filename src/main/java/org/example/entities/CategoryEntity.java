@@ -3,6 +3,7 @@ package org.example.entities;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -21,7 +22,8 @@ public class CategoryEntity {
     @Column(length = 4000)
     private String description;
 
-    @Column(name="date_created")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date dateCreated;
+    @Column(name = "date_created")
+    //@Temporal(TemporalType.TIMESTAMP)
+    //private Date dateCreated;
+    private LocalDateTime creationTime;
 }
