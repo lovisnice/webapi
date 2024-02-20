@@ -36,6 +36,19 @@ public class CategoryController {
         return new ResponseEntity<>(categoryItemDTOs, HttpStatus.OK);
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<CategoryItemDTO>> search(@RequestParam("query") String query) {
+        List<CategoryEntity> categories;
+        if (query != null && !query.isEmpty()) {
+            categories = categoryRepository.findByNameLikeIgnoreCase(query);
+        } else {
+            categories = categoryRepository.findAll();
+        }
+        List<CategoryItemDTO> categoryItemDTOs = categoryMapper.categoryItemDTOList(categories);
+        return new ResponseEntity<>(categoryItemDTOs, HttpStatus.OK);
+    }
+
+
     @GetMapping("/{id}")
     public ResponseEntity<CategoryItemDTO> getById(@PathVariable int id) {
         Optional<CategoryEntity> optionalCategory = categoryRepository.findById(id);
