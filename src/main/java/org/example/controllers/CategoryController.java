@@ -1,78 +1,60 @@
 package org.example.controllers;
 
 import lombok.AllArgsConstructor;
-import org.example.dto.CategoryCreateDTO;
-import org.example.dto.CategoryEditDTO;
-import org.example.dto.CategoryItemDTO;
-import org.example.entities.CategoryEntity;
+import org.example.dto.category.CategoryCreateDTO;
+import org.example.dto.category.CategoryEditDTO;
+import org.example.dto.category.CategoryItemDTO;
 import org.example.mapper.CategoryMapper;
 import org.example.repositories.CategoryRepository;
+import org.example.services.CategoryService;
 import org.example.storage.FileSaveFormat;
 import org.example.storage.StorageService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.webjars.NotFoundException;
 
-import java.nio.channels.ScatteringByteChannel;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
 @RequestMapping("api/categories")
 public class CategoryController {
-
+    //final - як readlonly на С#
     private final CategoryRepository categoryRepository;
     private final CategoryMapper categoryMapper;
     private final StorageService storageService;
+    private final CategoryService categoryService;
 
+    //HttpGet - аналог ASP.NET - отримання інформації
     @GetMapping
-    public ResponseEntity<List<CategoryItemDTO>> index() {
-        List<CategoryEntity> categories = categoryRepository.findAll();
-        List<CategoryItemDTO> categoryItemDTOs = categoryMapper.categoryItemDTOList(categories);
-        return new ResponseEntity<>(categoryItemDTOs, HttpStatus.OK);
+    public ResponseEntity<Page<CategoryItemDTO>> index(Pageable pageable) {
+        var model = categoryService.getAll(pageable);
+        return new ResponseEntity<>(model, HttpStatus.OK);
     }
 
-    @GetMapping("/search")
-    public ResponseEntity<List<CategoryItemDTO>> search(@RequestParam("query") String query) {
-        List<CategoryEntity> categories;
-        if (query != null && !query.isEmpty()) {
-            categories = categoryRepository.findByNameLikeIgnoreCase(query);
-        } else {
-            categories = categoryRepository.findAll();
-        }
-        List<CategoryItemDTO> categoryItemDTOs = categoryMapper.categoryItemDTOList(categories);
-        return new ResponseEntity<>(categoryItemDTOs, HttpStatus.OK);
-    }
-
-
-    @GetMapping("/{id}")
-    public ResponseEntity<CategoryItemDTO> getById(@PathVariable int id) {
-        Optional<CategoryEntity> optionalCategory = categoryRepository.findById(id);
-        if (optionalCategory.isPresent()) {
-            CategoryItemDTO categoryItemDTO = categoryMapper.categoryItemDTO(optionalCategory.get());
-            return new ResponseEntity<>(categoryItemDTO, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @PostMapping(value = "", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value="", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<CategoryItemDTO> create(@ModelAttribute CategoryCreateDTO dto) {
         try {
-            CategoryEntity entity = categoryMapper.categoryEntityByCategoryCreateDTO(dto);
+            var entity = categoryMapper.categoryEntityByCategoryCreateDTO(dto);
             entity.setCreationTime(LocalDateTime.now());
             String fileName = storageService.SaveImage(dto.getFile(), FileSaveFormat.WEBP);
             entity.setImage(fileName);
             categoryRepository.save(entity);
-            CategoryItemDTO result = categoryMapper.categoryItemDTO(entity);
+            var result = categoryMapper.categoryItemDTO(entity);
             return new ResponseEntity<>(result, HttpStatus.OK);
-        } catch (Exception ex) {
+        }
+        catch (Exception ex) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<Page<CategoryItemDTO>> searchByName(@RequestParam(required = false) String name, Pageable pageable) {
+        Page<CategoryItemDTO> categories = categoryService.searchByName(name, pageable);
+        return new ResponseEntity<>(categories, HttpStatus.OK);
     }
 
     @PutMapping(value="", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -100,14 +82,34 @@ public class CategoryController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable int id) {
-        Optional<CategoryEntity> optionalCategory = categoryRepository.findById(id);
-        if (optionalCategory.isPresent()) {
-            categoryRepository.deleteById(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } else {
+    // Method to delete a category by ID
+    @DeleteMapping("/{categoryId}")
+    public ResponseEntity<Void> delete(@PathVariable int categoryId) {
+        var entity = categoryRepository.findById(categoryId).orElse(null);
+        if (entity == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        try {
+            storageService.deleteImage(entity.getImage());
+            categoryRepository.deleteById(categoryId);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        catch (Exception exception) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
+
+    @GetMapping("/{categoryId}")
+    public ResponseEntity<CategoryItemDTO> getById(@PathVariable int categoryId) {
+        var entity = categoryRepository.findById(categoryId).orElse(null);
+        if (entity == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        var result =  categoryMapper.categoryItemDTO(entity);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
 }
+
+
+
