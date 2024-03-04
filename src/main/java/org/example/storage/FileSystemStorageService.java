@@ -1,6 +1,8 @@
 package org.example.storage;
 
+import com.github.javafaker.Faker;
 import net.coobird.thumbnailator.Thumbnails;
+import org.example.dto.category.CategoryCreateDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -52,6 +54,8 @@ public class FileSystemStorageService implements StorageService {
         }
     }
 
+
+
     @Override
     public void deleteImage(String fileName) throws IOException {
         Path filePath = rootLocation.resolve(fileName);
@@ -60,5 +64,15 @@ public class FileSystemStorageService implements StorageService {
             Path fileToDelete = filePath.resolveSibling(size + "_" + fileName);
             Files.deleteIfExists(fileToDelete);
         }
+    }
+
+    @Override
+    public void faker() throws IOException {
+        final Faker faker = new Faker();
+        CategoryCreateDTO category = new CategoryCreateDTO();
+        category.setName(faker.commerce().department());
+        category.setDescription(faker.lorem().sentence());
+        //category.setFile(faker.internet().url());
+
     }
 }
