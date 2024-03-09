@@ -50,24 +50,24 @@ public class Main {
     CommandLineRunner runner(CategoryRepository repository, StorageService storageService) {
         return args -> {
             storageService.init();
-            Faker faker = new Faker();
-            Random random = new Random();
-            for (int i = 0; i < 100; i++) {
-                CategoryEntity category = new CategoryEntity();
-                category.setName(faker.commerce().department());
-
-                int randomIndex = random.nextInt(1000); // Ви можете обрати будь-яке максимальне значення
-                String imageUrl = LOREM_PICSUM_URL + "?random=" + randomIndex;
-
-                // Викликаємо метод для завантаження зображення та збереження його
-
-                int[] sizes = {32, 150, 300, 600, 1200};
-                // Set other properties like image, description, creation time using Faker
-                category.setImage(downloadImage(imageUrl, category.getName() + ".webp", sizes));
-                category.setDescription(faker.lorem().sentence());
-                category.setCreationTime(LocalDateTime.now());
-                repository.save(category);
-//            }
+            //Faker faker = new Faker();
+            //Random random = new Random();
+//            for (int i = 0; i < 100; i++) {
+//                CategoryEntity category = new CategoryEntity();
+//                category.setName(faker.commerce().department());
+//
+//                int randomIndex = random.nextInt(1000); // Ви можете обрати будь-яке максимальне значення
+//                String imageUrl = LOREM_PICSUM_URL + "?random=" + randomIndex;
+//
+//                // Викликаємо метод для завантаження зображення та збереження його
+//
+//                int[] sizes = {32, 150, 300, 600, 1200};
+//                // Set other properties like image, description, creation time using Faker
+//                category.setImage(downloadImage(imageUrl, category.getName() + ".webp", sizes));
+//                category.setDescription(faker.lorem().sentence());
+//                category.setCreationTime(LocalDateTime.now());
+//                repository.save(category);
+////            }
 //            CategoryEntity category = new CategoryEntity();
 //            category.setName("Одяг");
 //            category.setImage("1.jpg");
@@ -76,7 +76,7 @@ public class Main {
 //            repository.save(category);
             }
             ;
-        };
+        //};
     };
 
 }

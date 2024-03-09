@@ -1,8 +1,6 @@
 package org.example.storage;
 
-import com.github.javafaker.Faker;
 import net.coobird.thumbnailator.Thumbnails;
-import org.example.dto.category.CategoryCreateDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,6 +11,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Base64;
 import java.util.UUID;
 
 @Service
@@ -24,37 +23,23 @@ public class FileSystemStorageService implements StorageService {
     }
 
     @Override
-    public void init() {
-        try {
-            if (!Files.exists(rootLocation))
-                Files.createDirectory(rootLocation);
-        } catch (IOException ex) {
-            System.out.println("Помилка створення папки " + ex.getMessage());
-        }
+    public void init() throws IOException {
+        if(!Files.exists(rootLocation))
+            Files.createDirectory(rootLocation);
     }
 
     @Override
-    public String SaveImage(MultipartFile file, FileSaveFormat format) {
-        try {
-            String ext = format.name().toLowerCase();
-            String randomFileName = UUID.randomUUID().toString() + "."+ext;
-            int [] sizes = {32,150,300,600,1200};
-            BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(file.getBytes()));
-            for(int size: sizes) {
-                String fileSave = rootLocation.toString()+"/"+size+"_"+randomFileName;
-                Thumbnails.of(bufferedImage)
-                        .size(size, size)
-                        .outputFormat(ext)
-                        .toFile(fileSave);
-            }
-            return randomFileName;
-        } catch (IOException ex) {
-            System.out.println("Помилка кодування файлу "+ ex.getMessage());
-            return null;
+    public String SaveImage(MultipartFile file, FileSaveFormat format) throws IOException {
+        String ext = format.name().toLowerCase();
+        String randomFileName = UUID.randomUUID().toString()+"."+ext;
+        int [] sizes = {32,150,300,600,1200};
+        var bufferedImage = ImageIO.read(new ByteArrayInputStream(file.getBytes()));
+        for (var size : sizes) {
+            String fileSave = rootLocation.toString()+"/"+size+"_"+randomFileName;
+            Thumbnails.of(bufferedImage).size(size, size).outputFormat(ext).toFile(fileSave);
         }
+        return randomFileName;
     }
-
-
 
     @Override
     public void deleteImage(String fileName) throws IOException {
@@ -67,12 +52,26 @@ public class FileSystemStorageService implements StorageService {
     }
 
     @Override
-    public void faker() throws IOException {
-        final Faker faker = new Faker();
-        CategoryCreateDTO category = new CategoryCreateDTO();
-        category.setName(faker.commerce().department());
-        category.setDescription(faker.lorem().sentence());
-        //category.setFile(faker.internet().url());
+    public String SaveImageBase64(String base64, FileSaveFormat format) {
+        try {
+            String ext = format.name().toLowerCase();
+            String randomFileName = UUID.randomUUID().toString() + "."+ext;
+            int [] sizes = {32,150,300,600,1200};
 
+            var bytes = Base64.getDecoder().decode(base64);
+
+            BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(bytes));
+            for(int size: sizes) {
+                String fileSave = rootLocation.toString()+"/"+size+"_"+randomFileName;
+                Thumbnails.of(bufferedImage)
+                        .size(size, size)
+                        .outputFormat(ext)
+                        .toFile(fileSave);
+            }
+            return randomFileName;
+        } catch (IOException ex) {
+            System.out.println("Помилка кодування файлу "+ ex.getMessage());
+            return null;
+        }
     }
 }
