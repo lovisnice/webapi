@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.example.dto.category.CategoryCreateDTO;
 import org.example.dto.category.CategoryEditDTO;
 import org.example.dto.category.CategoryItemDTO;
+import org.example.dto.common.SelectItemDTO;
 import org.example.mapper.CategoryMapper;
 import org.example.repositories.CategoryRepository;
 import org.example.services.CategoryService;
@@ -17,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @RestController
 @AllArgsConstructor
@@ -49,12 +51,6 @@ public class CategoryController {
         catch (Exception ex) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
-    }
-
-    @GetMapping("/search")
-    public ResponseEntity<Page<CategoryItemDTO>> searchByName(@RequestParam(required = false) String name, Pageable pageable) {
-        Page<CategoryItemDTO> categories = categoryService.searchByName(name, pageable);
-        return new ResponseEntity<>(categories, HttpStatus.OK);
     }
 
     @PutMapping(value="", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -109,7 +105,16 @@ public class CategoryController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<Page<CategoryItemDTO>> searchByName(@RequestParam(required = false) String name,
+                                                              Pageable pageable) {
+        Page<CategoryItemDTO> categories = categoryService.searchByName(name, pageable);
+        return new ResponseEntity<>(categories, HttpStatus.OK);
+    }
+
+    @GetMapping("/selectList")
+    public ResponseEntity<List<SelectItemDTO>> selectList() {
+        var list = categoryService.getSelectList();
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
 }
-
-
-

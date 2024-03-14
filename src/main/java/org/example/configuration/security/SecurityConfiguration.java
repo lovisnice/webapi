@@ -35,7 +35,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/rest-api-docs/**").permitAll()
                         .requestMatchers("/swagger-ui/**").permitAll()
                         .requestMatchers("/api/categories/**").permitAll()
-                        .requestMatchers("/api/products/**").hasAuthority(Roles.Admin)
+                        .requestMatchers("/api/products/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(it->it.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

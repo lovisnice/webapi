@@ -22,15 +22,10 @@ public class CustomWebConfig implements WebMvcConfigurer {
                 .maxAge(3600);
     }
 
+    @Override
     public void addResourceHandlers(final ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/uploading/**")
-                .addResourceLocations("file:uploading/");
+        String location = storageProperties.getLocation();
+        registry.addResourceHandler("/"+location+"/**")
+                .addResourceLocations("file:"+location+"/");
     }
-
-//    @Override
-//    public void addResourceHandlers(final ResourceHandlerRegistry registry) {
-//        String location = storageProperties.getLocation();
-//        registry.addResourceHandler("/"+location+"/**")
-//                .addResourceLocations("file:"+location+"/");
-//    }
 }
