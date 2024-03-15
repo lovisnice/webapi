@@ -4,16 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="784d2961-2d79-485d-bd1d-9f833e8a453e" name="Changes" comment="UPD">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/dto/account/RegisterDto.java" afterDir="false" />
+    <list default="true" id="784d2961-2d79-485d-bd1d-9f833e8a453e" name="Changes" comment="log &amp; reg">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/configuration/CustomWebConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/configuration/CustomWebConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/configuration/security/SecurityConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/configuration/security/SecurityConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/controllers/AccountController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/controllers/AccountController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/controllers/CategoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/controllers/CategoryController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/services/AccountService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/services/AccountService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/services/CategoryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/services/CategoryService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/services/CategoryServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/services/CategoryServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/configuration/security/JwtService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/configuration/security/JwtService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -135,7 +128,15 @@
       <option name="project" value="LOCAL" />
       <updated>1710015930763</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="log &amp; reg">
+      <option name="closed" value="true" />
+      <created>1710452023309</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1710452023309</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -146,6 +147,7 @@
     <MESSAGE value="Is good working Specification" />
     <MESSAGE value="Faker images &amp; categories" />
     <MESSAGE value="UPD" />
-    <option name="LAST_COMMIT_MESSAGE" value="UPD" />
+    <MESSAGE value="log &amp; reg" />
+    <option name="LAST_COMMIT_MESSAGE" value="log &amp; reg" />
   </component>
 </project>
