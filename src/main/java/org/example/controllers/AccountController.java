@@ -4,13 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.example.dto.account.AuthResponseDto;
 import org.example.dto.account.LoginDto;
 import org.example.dto.account.RegisterDto;
+import org.example.dto.account.UserDto;
 import org.example.services.AccountService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("api/account")
@@ -46,4 +46,11 @@ public class AccountController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
+    @GetMapping("getusers")
+    public ResponseEntity<List<UserDto>> getUsersWithRoles() {
+        List<UserDto> usersWithRoles = service.getUsersWithRole();
+        return new ResponseEntity<>(usersWithRoles, HttpStatus.OK);
+    }
+
 }

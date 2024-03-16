@@ -4,9 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="784d2961-2d79-485d-bd1d-9f833e8a453e" name="Changes" comment="log &amp; reg">
+    <list default="true" id="784d2961-2d79-485d-bd1d-9f833e8a453e" name="Changes" comment="admin panel">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/dto/account/UserDto.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/configuration/security/JwtService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/configuration/security/JwtService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/controllers/AccountController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/controllers/AccountController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/services/AccountService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/services/AccountService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -136,7 +138,15 @@
       <option name="project" value="LOCAL" />
       <updated>1710452023309</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="admin panel">
+      <option name="closed" value="true" />
+      <created>1710542231637</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1710542231637</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -148,6 +158,7 @@
     <MESSAGE value="Faker images &amp; categories" />
     <MESSAGE value="UPD" />
     <MESSAGE value="log &amp; reg" />
-    <option name="LAST_COMMIT_MESSAGE" value="log &amp; reg" />
+    <MESSAGE value="admin panel" />
+    <option name="LAST_COMMIT_MESSAGE" value="admin panel" />
   </component>
 </project>
